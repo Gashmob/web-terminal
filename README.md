@@ -43,6 +43,35 @@ Each property is optional and have a default value.
 
 ### File system
 
+This interface helps you to configure a tree structure with directories, files, permissions, ...
+
+```ts
+interface FilesystemConfiguration {
+    tree: Directory;
+    workdir: string;
+}
+```
+
+You can define directories with:
+
+```ts
+interface Directory {
+    name: string;
+    permission: number; // Linux permissions (755 or 644 for example)
+    content: (Directory|File)[]
+}
+```
+
+And you can define files with:
+
+```ts
+interface File {
+    name: string;
+    permission: number;
+    content: string;
+}
+```
+
 ### Commands
 
 ### Style
