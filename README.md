@@ -16,11 +16,11 @@ pnpm add @gashmob/web-terminal
 Then you can use it directly
 
 ```ts
-import { WebTerminal } from "@gashmob/web-terminal"
+import { WebTerminal } from "@gashmob/web-terminal";
 
 const terminal = new WebTerminal();
 
-document.getElementById('#container').appendChild(terminal);
+document.getElementById("#container").appendChild(terminal);
 ```
 
 And that's all! You can now see a black terminal on you web page. It takes all the space available inside
@@ -33,9 +33,9 @@ what it contains.
 
 ```ts
 interface TerminalConfiguration {
-    filesystem: FilesystemConfiguration;
-    commands: Command[];
-    style: StyleConfiguration;
+  filesystem: FilesystemConfiguration;
+  commands: Command[];
+  style: StyleConfiguration;
 }
 ```
 
@@ -47,8 +47,8 @@ This interface helps you to configure a tree structure with directories, files, 
 
 ```ts
 interface FilesystemConfiguration {
-    tree: Directory;
-    workdir: string;
+  tree: Directory;
+  workdir: string;
 }
 ```
 
@@ -56,9 +56,9 @@ You can define directories with:
 
 ```ts
 interface Directory {
-    name: string;
-    permission: number; // Linux permissions (755 or 644 for example)
-    content: (Directory | File)[]
+  name: string;
+  permission: number; // Linux permissions (755 or 644 for example)
+  content: (Directory | File)[];
 }
 ```
 
@@ -66,9 +66,9 @@ And you can define files with:
 
 ```ts
 interface File {
-    name: string;
-    permission: number;
-    content: string;
+  name: string;
+  permission: number;
+  content: string;
 }
 ```
 
@@ -78,9 +78,9 @@ You can define a command with this interface:
 
 ```ts
 interface Command {
-    name: string;
-    help: string; // Help message
-    handler: (CommandParameters) => number;
+  name: string;
+  help: string; // Help message
+  handler: (CommandParameters) => number;
 }
 ```
 
@@ -88,25 +88,25 @@ interface Command {
 
 ```ts
 interface CommandParameters {
-    args: string[];
-    output: CommandOutput;
-    filesystem: CommandFileSystem;
+  args: string[];
+  output: CommandOutput;
+  filesystem: CommandFileSystem;
 }
 
 interface CommandOutput {
-    write: (string) => void;
-    writeln: (string) => void;
-    info: (string) => void;
-    warning: (string) => void;
-    error: (string) => void;
+  write: (string) => void;
+  writeln: (string) => void;
+  info: (string) => void;
+  warning: (string) => void;
+  error: (string) => void;
 }
 
 interface CommandFileSystem {
-    createDir: (string) => void;
-    removeDir: (string) => void;
-    createFile: (string) => void;
-    removeFile: (string) => void;
-    writeFile: (string, string) => void; // (file, content)
+  createDir: (string) => void;
+  removeDir: (string) => void;
+  createFile: (string) => void;
+  removeFile: (string) => void;
+  writeFile: (string, string) => void; // (file, content)
 }
 ```
 
@@ -123,9 +123,9 @@ This helps you to customize appearance of your terminal:
 
 ```ts
 interface StyleConfiguration {
-    background: string;
-    fontColor: string;
-    fontFamily: string;
-    // Others style configuration will be determined along implementation
+  background: string;
+  fontColor: string;
+  fontFamily: string;
+  // Others style configuration will be determined along implementation
 }
 ```
