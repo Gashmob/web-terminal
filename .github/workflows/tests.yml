@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: ["prettier", "test", "cypress"]
+        test: ["prettier", "test", "cypress", "typecheck"]
     steps:
       - uses: actions/checkout@v4
 
