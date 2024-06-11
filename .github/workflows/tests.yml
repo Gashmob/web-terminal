@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: ["prettier"]
+        test: ["prettier", "unit-test"]
     steps:
       - uses: actions/checkout@v4
 
