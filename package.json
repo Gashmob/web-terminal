@@ -1,7 +1,18 @@
 {
   "name": "@gashmob/web-terminal",
   "version": "0.1.0",
+  "description": "Fake shell terminal in a web page",
+  "homepage": "https://github.com/Gashmob/web-terminal",
+  "bugs": {
+    "url": "https://github.com/Gashmob/web-terminal/issues"
+  },
+  "license": "MIT",
+  "author": "Kevin Traini <kevin@ktraini.com> (https://ktraini.com)",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gashmob/web-terminal"
+  },
   "files": [
     "dist",
     "index.d.ts"
