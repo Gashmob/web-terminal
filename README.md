@@ -58,7 +58,7 @@ You can define directories with:
 interface Directory {
     name: string;
     permission: number; // Linux permissions (755 or 644 for example)
-    content: (Directory|File)[]
+    content: (Directory | File)[]
 }
 ```
 
@@ -73,5 +73,48 @@ interface File {
 ```
 
 ### Commands
+
+You can define a command with this interface:
+
+```ts
+interface Command {
+    name: string;
+    help: string; // Help message
+    handler: (CommandParameters) => number;
+}
+```
+
+`CommandsParameters` is an object which provides you command arguments and some utilities
+
+```ts
+interface CommandParameters {
+    args: string[];
+    output: CommandOutput;
+    filesystem: CommandFileSystem;
+}
+
+interface CommandOutput {
+    write: (string) => void;
+    writeln: (string) => void;
+    info: (string) => void;
+    warning: (string) => void;
+    error: (string) => void;
+}
+
+interface CommandFileSystem {
+    createDir: (string) => void;
+    removeDir: (string) => void;
+    createFile: (string) => void;
+    removeFile: (string) => void;
+    writeFile: (string, string) => void; // (file, content)
+}
+```
+
+There is some pre-defined command that you can add to your config (they are not added by default):
+
+- `cat <file>` -> display content of file
+- `ls <directory>` -> display content of directory
+- `date` -> display current date
+- `pwd` -> display current workdir
 
 ### Style
