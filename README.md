@@ -118,3 +118,14 @@ There is some pre-defined command that you can add to your config (they are not 
 - `pwd` -> display current workdir
 
 ### Style
+
+This helps you to customize appearance of your terminal:
+
+```ts
+interface StyleConfiguration {
+    background: string;
+    fontColor: string;
+    fontFamily: string;
+    // Others style configuration will be determined along implementation
+}
+```
