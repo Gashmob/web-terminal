@@ -13,24 +13,23 @@
     "type": "git",
     "url": "https://github.com/Gashmob/web-terminal"
   },
-  "files": [
-    "dist",
-    "index.d.ts"
-  ],
-  "main": "./dist/counter.umd.cjs",
-  "module": "./dist/counter.js",
-  "types": "./index.d.ts",
+  "files": ["dist"],
+  "main": "./dist/web-terminal.umd.cjs",
+  "module": "./dist/web-terminal.js",
+  "types": "./dist/main.d.ts",
   "exports": {
-    "types": "./index.d.ts",
-    "import": "./dist/counter.js",
-    "require": "./dist/counter.umd.cjs"
+    ".": {
+      "types": "./dist/main.d.ts",
+      "import": "./dist/web-terminal.js",
+      "require": "./dist/web-terminal.umd.cjs"
+    }
   },
   "scripts": {
-    "dev": "vite",
     "build": "vite build"
   },
   "devDependencies": {
     "typescript": "^5.4.5",
-    "vite": "^5.2.10"
+    "vite": "^5.2.10",
+    "vite-plugin-dts": "^3.9.1"
   }
 }
