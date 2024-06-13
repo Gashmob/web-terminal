@@ -1,1 +1,3 @@
-console.log("Hello World!");
+import WebTerminal from "./WebTerminal.ts";
+
+export { WebTerminal };
