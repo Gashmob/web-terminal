@@ -1,7 +1,8 @@
 import { WebTerminal, CommandEcho } from "../lib/main.ts";
+import CommandClear from "../lib/commands/clear.ts";
 
 const terminal = new WebTerminal({
-  commands: [new CommandEcho()],
+  commands: [new CommandEcho(), new CommandClear()],
 });
 
 const app = document.querySelector("#app");

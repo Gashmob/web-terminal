@@ -1,8 +1,8 @@
-import { beforeEach, describe, expect, it } from "vitest";
-import CommandEcho from "./echo.ts";
+import { describe, expect, it } from "vitest";
 import type { CommandOutput } from "../configuration";
+import CommandClear from "./clear.ts";
 
-describe("Command echo", () => {
+describe("Command clear", () => {
   let output_text = "";
   const output: CommandOutput = {
     error(_: string): void {
@@ -17,28 +17,18 @@ describe("Command echo", () => {
     write(text: string): void {
       output_text += text;
     },
-    clear(): void {},
+    clear(): void {
+      output_text = "";
+    },
   };
 
-  beforeEach(() => {
-    output_text = "";
-  });
-
-  it("should print nothing if args are empty", () => {
-    const command = new CommandEcho();
+  it("should clear the terminal", () => {
+    output_text = "a very very long text";
+    const command = new CommandClear();
     command.handler({
-      args: ["echo"],
+      args: ["clear"],
       output: output,
     });
     expect(output_text).toBe("");
-  });
-
-  it("should print args with spaces", () => {
-    const command = new CommandEcho();
-    command.handler({
-      args: ["echo", "hello", "world!"],
-      output: output,
-    });
-    expect(output_text).toBe("hello world!");
   });
 });

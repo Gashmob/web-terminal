@@ -33,4 +33,8 @@ export default class Output implements CommandOutput {
     span.textContent = text;
     this.out.appendChild(span);
   }
+
+  clear(): void {
+    this.out.innerHTML = "";
+  }
 }

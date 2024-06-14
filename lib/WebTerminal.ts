@@ -5,6 +5,7 @@ import type {
 } from "./configuration";
 import Output from "./CommandOutput.ts";
 import CommandEcho from "./commands/echo.ts";
+import CommandClear from "./commands/clear.ts";
 
 class WebTerminal extends HTMLDivElement {
   private readonly history: HTMLDivElement;
@@ -153,4 +154,4 @@ if (!customElements.get(WEB_TERMINAL_TAG)) {
   customElements.define(WEB_TERMINAL_TAG, WebTerminal, { extends: "div" });
 }
 
-export { WebTerminal, CommandEcho };
+export { WebTerminal, CommandEcho, CommandClear };

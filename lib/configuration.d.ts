@@ -18,4 +18,5 @@ export interface CommandOutput {
   info: (text: string) => void;
   warning: (text: string) => void;
   error: (text: string) => void;
+  clear: () => void;
 }

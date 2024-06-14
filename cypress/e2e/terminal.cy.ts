@@ -1,9 +1,7 @@
 describe("terminal", () => {
   it("write error if command not found", () => {
     cy.visit("/");
-    const input = cy.get("#app").find("[data-test=input]");
-    input.type("abcd");
-    cy.get("#app").find("[data-test=input-form]").submit();
+    cy.command("abcd");
     const history = cy.get("#app").find("[data-test=history]");
     const history_children = history.children();
     history_children.should("have.length", 2);
@@ -14,12 +12,24 @@ describe("terminal", () => {
 
   it("runs command echo", () => {
     cy.visit("/");
-    const input = cy.get("#app").find("[data-test=input]");
-    input.type("echo hello world!");
-    cy.get("#app").find("[data-test=input-form]").submit();
+    cy.command("echo hello world!");
     const history = cy.get("#app").find("[data-test=history]");
     const history_children = history.children();
     history_children.should("have.length", 2);
     history_children.last().contains("hello world!");
+  });
+
+  it("runs command clear", () => {
+    cy.visit("/");
+    for (let i = 0; i < 10; i++) {
+      cy.command(`echo hello ${i}`);
+    }
+    cy.get("#app")
+      .find("[data-test=history]")
+      .children()
+      .should("have.length", 20);
+
+    cy.command("clear");
+    cy.get("#app").find("[data-test=history]").should("be.empty");
   });
 });
