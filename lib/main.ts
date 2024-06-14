@@ -1,3 +1,1 @@
-import WebTerminal from "./WebTerminal.ts";
-
-export { WebTerminal };
+export * from "./WebTerminal";

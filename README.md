@@ -95,7 +95,6 @@ interface CommandParameters {
 
 interface CommandOutput {
   write: (string) => void;
-  writeln: (string) => void;
   info: (string) => void;
   warning: (string) => void;
   error: (string) => void;

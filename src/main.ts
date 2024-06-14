@@ -1,6 +1,8 @@
-import { WebTerminal } from "../lib/main.ts";
+import { WebTerminal, CommandEcho } from "../lib/main.ts";
 
-const terminal = new WebTerminal();
+const terminal = new WebTerminal({
+  commands: [new CommandEcho()],
+});
 
 const app = document.querySelector("#app");
 if (app === null) {

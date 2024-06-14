@@ -1,10 +1,26 @@
-export default class WebTerminal extends HTMLDivElement {
-  private readonly history: HTMLDivElement;
+import type {
+  Command,
+  CommandOutput,
+  TerminalConfiguration,
+} from "./configuration";
+import Output from "./CommandOutput.ts";
+import CommandEcho from "./commands/echo.ts";
 
-  public constructor() {
+class WebTerminal extends HTMLDivElement {
+  private readonly history: HTMLDivElement;
+  private readonly output: CommandOutput;
+  private readonly config: TerminalConfiguration;
+
+  public constructor(
+    config: TerminalConfiguration = {
+      commands: [],
+    },
+  ) {
     super();
 
+    this.config = config;
     this.history = document.createElement("div");
+    this.output = new Output(this.history);
   }
 
   public connectedCallback(): void {
@@ -48,6 +64,7 @@ export default class WebTerminal extends HTMLDivElement {
       flex-direction: column-reverse;
       justify-items: stretch;
       align-items: stretch;
+      overflow-y: scroll;
     }
     
     .input {
@@ -59,9 +76,17 @@ export default class WebTerminal extends HTMLDivElement {
     .history {
       display: flex;
       flex-direction: column;
-      //justify-content: end;
-      overflow-y: scroll;
       text-wrap: wrap;
+    }
+    
+    .history span.error {
+      color: red;
+    }
+    .history span.warning {
+      color: yellow;
+    }
+    .history span.info {
+      color: skyblue;
     }
     `;
     shadow.appendChild(style);
@@ -85,8 +110,7 @@ export default class WebTerminal extends HTMLDivElement {
 
     input_form.addEventListener("submit", (event) => {
       event.preventDefault();
-      const command = input.value;
-      this.writeToHistory(`> ${command}`);
+      this.handleCommand(input.value);
       input.value = "";
     });
 
@@ -98,14 +122,35 @@ export default class WebTerminal extends HTMLDivElement {
     input.focus();
   }
 
-  private writeToHistory(text: string) {
-    const span = document.createElement("span");
-    span.textContent = text;
-    this.history.appendChild(span);
+  private handleCommand(input: string) {
+    this.output.write(`> ${input}`);
+    if (input === "") {
+      return;
+    }
+
+    const args = input.split(" ").filter((token: string) => token !== "");
+    const command_name = args[0];
+    const command = this.config.commands.find(
+      (command: Command) => command.name === command_name,
+    );
+    if (command === undefined) {
+      this.output.error(`Command not found: ${command_name}`);
+      return;
+    }
+
+    const exit_code = command.handler({
+      args: args,
+      output: this.output,
+    });
+    if (exit_code !== 0) {
+      this.output.error(`Exit code ${exit_code}`);
+    }
   }
 }
 
-export const WEB_TERMINAL_TAG = "web-terminal";
+const WEB_TERMINAL_TAG = "web-terminal";
 if (!customElements.get(WEB_TERMINAL_TAG)) {
   customElements.define(WEB_TERMINAL_TAG, WebTerminal, { extends: "div" });
 }
+
+export { WebTerminal, CommandEcho };
