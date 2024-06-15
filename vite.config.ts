@@ -10,5 +10,10 @@ export default defineConfig({
       fileName: "web-terminal",
     },
   },
-  plugins: [dts({ exclude: ["**/*.test.ts", "src/**/*"] })],
+  plugins: [
+    dts({
+      rollupTypes: true,
+      exclude: ["**/*.test.ts", "src/**/*"],
+    }),
+  ],
 });
