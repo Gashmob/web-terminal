@@ -1,6 +1,6 @@
-import type { Command, TerminalConfiguration } from "./configuration";
+import type { Command, TerminalConfiguration } from "./types";
 
-class WebTerminal extends HTMLDivElement {
+export class WebTerminal extends HTMLDivElement {
   private readonly history: HTMLDivElement;
   private readonly config: TerminalConfiguration;
 
@@ -140,5 +140,3 @@ const WEB_TERMINAL_TAG = "web-terminal";
 if (!customElements.get(WEB_TERMINAL_TAG)) {
   customElements.define(WEB_TERMINAL_TAG, WebTerminal, { extends: "div" });
 }
-
-export { WebTerminal };
