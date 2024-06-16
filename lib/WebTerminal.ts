@@ -1,15 +1,7 @@
-import type {
-  Command,
-  CommandOutput,
-  TerminalConfiguration,
-} from "./configuration";
-import Output from "./CommandOutput.ts";
-import CommandEcho from "./commands/echo.ts";
-import CommandClear from "./commands/clear.ts";
+import type { Command, TerminalConfiguration } from "./configuration";
 
 class WebTerminal extends HTMLDivElement {
   private readonly history: HTMLDivElement;
-  private readonly output: CommandOutput;
   private readonly config: TerminalConfiguration;
 
   public constructor(
@@ -21,7 +13,6 @@ class WebTerminal extends HTMLDivElement {
 
     this.config = config;
     this.history = document.createElement("div");
-    this.output = new Output(this.history);
   }
 
   public connectedCallback(): void {
@@ -124,7 +115,6 @@ class WebTerminal extends HTMLDivElement {
   }
 
   private handleCommand(input: string) {
-    this.output.write(`> ${input}`);
     if (input === "") {
       return;
     }
@@ -135,16 +125,13 @@ class WebTerminal extends HTMLDivElement {
       (command: Command) => command.name === command_name,
     );
     if (command === undefined) {
-      this.output.error(`Command not found: ${command_name}`);
       return;
     }
 
     const exit_code = command.handler({
       args: args,
-      output: this.output,
     });
     if (exit_code !== 0) {
-      this.output.error(`Exit code ${exit_code}`);
     }
   }
 }
@@ -154,4 +141,4 @@ if (!customElements.get(WEB_TERMINAL_TAG)) {
   customElements.define(WEB_TERMINAL_TAG, WebTerminal, { extends: "div" });
 }
 
-export { WebTerminal, CommandEcho, CommandClear };
+export { WebTerminal };
