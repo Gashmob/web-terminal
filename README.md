@@ -1,5 +1,8 @@
 # Web terminal
 
+[![Tests](https://github.com/Gashmob/web-terminal/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/Gashmob/web-terminal/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Fake shell terminal in a web page
 
 This typescript library provide you an HTML custom element allowing you to add a terminal in your web page.
