@@ -1,7 +1,9 @@
-import type { Command, TerminalConfiguration } from "./types";
+import type { TerminalConfiguration } from "./types";
+import { ShellCommand } from "./commands/shell.ts";
+import { UserInputStream } from "./stream/UserInputStream.ts";
+import { TerminalOutputStream } from "./stream/TerminalOutputStream.ts";
 
 export class WebTerminal extends HTMLDivElement {
-  private readonly history: HTMLDivElement;
   private readonly config: TerminalConfiguration;
 
   public constructor(
@@ -12,7 +14,6 @@ export class WebTerminal extends HTMLDivElement {
     super();
 
     this.config = config;
-    this.history = document.createElement("div");
   }
 
   public connectedCallback(): void {
@@ -21,14 +22,14 @@ export class WebTerminal extends HTMLDivElement {
 
   /**
    * *--------------------------*
-   * | *----------------------* |
-   * | |                      | |
-   * | |                      | |
-   * | | Text 1               | |
-   * | | Text 2               | |
-   * | | Text 3               | |
-   * | *----------------------* |
-   * | > input                  |
+   * |                          |
+   * |                          |
+   * |                          |
+   * |                          |
+   * |                          |
+   * | Text 1                   |
+   * | Text 2                   |
+   * | Text 3                   |
    * *--------------------------*
    */
   private buildTerminal(): void {
@@ -52,87 +53,30 @@ export class WebTerminal extends HTMLDivElement {
     .container {
       width: 100%;
       height: 100%;
-      display: flex;
-      flex-direction: column-reverse;
-      justify-items: stretch;
-      align-items: stretch;
       overflow-y: scroll;
     }
     
-    .input {
-      border: none;
-      outline: none;
-      width: 100%;
-    }
-    
-    .history {
+    .terminal {
       display: flex;
       flex-direction: column;
-      text-wrap: wrap;
-    }
-    
-    .history span.error {
-      color: red;
-    }
-    .history span.warning {
-      color: yellow;
-    }
-    .history span.info {
-      color: skyblue;
     }
     `;
     shadow.appendChild(style);
 
     const container = document.createElement("div");
     container.classList.add("container");
-
-    const input_form = document.createElement("form");
-    input_form.style.display = "flex";
-    input_form.setAttribute("data-test", "input-form");
-    const input_sign = document.createElement("span");
-    input_sign.textContent = ">";
-    input_sign.style.marginRight = "7px";
-    input_form.appendChild(input_sign);
-    const input = document.createElement("input");
-    input.setAttribute("data-test", "input");
-    input.type = "text";
-    input.classList.add("input");
-    input_form.appendChild(input);
-    container.appendChild(input_form);
-
-    input_form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      this.handleCommand(input.value);
-      input.value = "";
-    });
-
-    this.history.classList.add("history");
-    this.history.setAttribute("data-test", "history");
-    container.appendChild(this.history);
-
+    const terminal = document.createElement("div");
+    terminal.classList.add("terminal");
+    container.appendChild(terminal);
     shadow.appendChild(container);
-    input.focus();
-  }
+    terminal.focus();
 
-  private handleCommand(input: string) {
-    if (input === "") {
-      return;
-    }
-
-    const args = input.split(" ").filter((token: string) => token !== "");
-    const command_name = args[0];
-    const command = this.config.commands.find(
-      (command: Command) => command.name === command_name,
-    );
-    if (command === undefined) {
-      return;
-    }
-
-    const exit_code = command.handler({
-      args: args,
+    const shell = new ShellCommand();
+    shell.handler({
+      args: ["shell"],
+      input: new UserInputStream(),
+      output: new TerminalOutputStream(terminal),
     });
-    if (exit_code !== 0) {
-    }
   }
 }
 
