@@ -1,3 +1,3 @@
-import { WebTerminal } from "./WebTerminal";
+export { WebTerminal } from "./WebTerminal";
 
-export { WebTerminal };
+export type * from "./types";

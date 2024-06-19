@@ -1,26 +1,26 @@
-export interface TerminalConfiguration {
+export type TerminalConfiguration = {
   commands: Command[];
-}
+};
 
-export interface Command {
+export type Command = {
   name: string;
   help: string;
   handler: (params: CommandParameters) => number;
-}
+};
 
-export interface CommandParameters {
+export type CommandParameters = {
   args: string[];
   input: InputStream;
   output: OutputStream;
-}
+};
 
-export interface InputStream {
+export type InputStream = {
   read: () => Promise<string>;
   readline: () => Promise<string>;
-}
+};
 
-export interface OutputStream {
+export type OutputStream = {
   write: (text: string) => void;
   writeline: (text: string) => void;
   flush: () => void;
-}
+};
